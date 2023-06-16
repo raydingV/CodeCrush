@@ -15,7 +15,7 @@ void AMyPawnTo::BeginPlay()
 {
 	Super::BeginPlay();
 
-	enemySpawner = Cast<ASpawnerEnemy>(Actor);
+	enemySpawner = Cast<AGameManager>(Actor);
 }
 
 // Called every frame

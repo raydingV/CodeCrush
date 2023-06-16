@@ -5,16 +5,16 @@
 #include "CoreMinimal.h"
 #include "EnemyText.h"
 #include "GameFramework/Actor.h"
-#include "SpawnerEnemy.generated.h"
+#include "GameManager.generated.h"
 
 UCLASS()
-class ASSETTRYOUT_API ASpawnerEnemy : public AActor
+class ASSETTRYOUT_API AGameManager : public AActor
 {
 	GENERATED_BODY()
     
 public:    
 	// Sets default values for this actor's properties
-	ASpawnerEnemy();
+	AGameManager();
 
 	UPROPERTY(EditAnywhere, Category = "Spawning")
 	TSubclassOf<AActor> ActorToSpawn;
@@ -34,10 +34,12 @@ protected:
 	virtual void BeginPlay() override;
 
 	float CountDownTimer;
+	float timerValue;
 	int CountWord;
 	int spawnQue;
-	int InputQue;
+	int SpawnMax;
 	bool InInput;
+	bool readyNewRound;
 
 public:    
 	// Called every frame
