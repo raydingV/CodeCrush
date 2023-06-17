@@ -25,7 +25,7 @@ void AMyPawnTo::Tick(float DeltaTime)
 	
 	if(enemySpawner != nullptr)
 	{
-		if(enemySpawner->Enemy != nullptr)
+		if(enemySpawner->InInput)
 		{
 			Direct = enemySpawner->Enemy->GetActorLocation() - GetActorLocation();
 			Direct.Normalize(-1.0f);

@@ -22,12 +22,22 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "FirstLetter")
 	void FirstLetter(FKey key);
 
+	UPROPERTY(EditAnywhere, Category = "Spawning")
+	TSubclassOf<AActor> MissileActorObject;
+
+	UPROPERTY(EditAnywhere)
+	AActor* Pawn;
+
 	UPROPERTY()
 	TArray<AActor*> SpawnedActors;
 
 	AEnemyText* Enemy;
+	AEnemyText* enemyWord;
 	AActor* SpawnedActor;
-	int zort;
+	AActor* SpawnedMissileActor;
+	
+	FActorSpawnParameters SpawnParams;
+	bool InInput;
 
 protected:
 	// Called when the game starts or when spawned
@@ -35,11 +45,24 @@ protected:
 
 	float CountDownTimer;
 	float timerValue;
+	
 	int CountWord;
 	int spawnQue;
 	int SpawnMax;
-	bool InInput;
+	int randomSpawnWord;
+	
 	bool readyNewRound;
+
+	
+	FText PressedKeyText;
+	FString PressedKeyString;
+	FString charr;
+	
+	UPROPERTY(EditAnywhere)
+	TArray<FString> Words;
+	
+	UPROPERTY(EditAnywhere)
+	TArray<FString> SpawnWord;
 
 public:    
 	// Called every frame

@@ -11,7 +11,6 @@
 // Sets default values
 AGameManager::AGameManager()
 {
-     // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
     PrimaryActorTick.bCanEverTick = true;
 
     CountDownTimer = 1000.0f;
@@ -19,15 +18,16 @@ AGameManager::AGameManager()
     spawnQue = 0;
     InInput = false;
     readyNewRound = false;
+    Words = {"merhaba", "UmutluBebek", "KakakCocuk","DombulBebek","SismanBebek", "EmzikliBebek", "LaubaliBebek", "ProBebek"};
 }
 
-// Called when the game starts or when spawned
 void AGameManager::BeginPlay()
 {
     Super::BeginPlay();
     SpawnMax = 4;
     timerValue = 800.0f;
     CountDownTimer = 0;
+    SpawnWord = Words;
 }
 
 // Called every frame
@@ -39,13 +39,37 @@ void AGameManager::Tick(float DeltaTime)
 
     if (ActorToSpawn && CountWord < SpawnMax && CountDownTimer <= 0)
     {
-        FActorSpawnParameters SpawnParams;
+        // UE_LOG(LogTemp, Warning, TEXT("The array num: %d"), SpawnWord.Num());
         SpawnedActor = GetWorld()->SpawnActor<AActor>(ActorToSpawn, FVector3d(FMath::RandRange(50.0, 2900.0), FMath::RandRange(2000.0, 3200.0), 60.0) , GetActorRotation(), SpawnParams);
+
+        
+        SpawnedActors.Add(SpawnedActor);
+        enemyWord = Cast<AEnemyText>(SpawnedActors.Last());
+
+        randomSpawnWord = FMath::RandRange(0, SpawnWord.Num() - 1);
+        
+        enemyWord->chooseWord = SpawnWord[randomSpawnWord];
+        SpawnWord.RemoveAt(randomSpawnWord);
+        
+        
+        // if(SpawnWord.Len() != 0 && enemyWord != nullptr)
+        // {
+        //     for(int i = 0; SpawnWord.Len(); i++)
+        //     {
+        //         if(SpawnWord[i] != enemyWord->chooseWord[i])
+        //         {
+        //             spawnNewWord = false;
+        //         }
+        //     }
+        // }
+        // else
+        // {
+        //     spawnNewWord = true;
+        // }
+        
         CountDownTimer = timerValue;
         CountWord++;
         spawnQue++;
-        
-        SpawnedActors.Add(SpawnedActor);
     }
 
     if(CountWord < SpawnMax)
@@ -55,19 +79,21 @@ void AGameManager::Tick(float DeltaTime)
 
     if(SpawnedActors.Num() == 0 && readyNewRound)
     {
+        SpawnWord.Empty();
         CountWord = 0;
         SpawnMax += 3;
         timerValue -= 200;
-        if(SpawnMax > 10)
+        if(SpawnMax > 7)
         {
-            SpawnMax = 10;
+            SpawnMax = 7;
         }
         if(timerValue < 300)
         {
             timerValue = 300;
         }
         UE_LOG(LogTemp, Warning, TEXT("next Round!"));
-        readyNewRound = false;
+        readyNewRound = true;
+        SpawnWord = Words;
     }
 
     // if(SpawnedActors[spawnQue] != nullptr)
@@ -83,39 +109,23 @@ void AGameManager::Tick(float DeltaTime)
 
 void AGameManager::FirstLetter(FKey key)
 {
-    FText PressedKeyText = key.GetDisplayName();
-    FString PressedKeyString = PressedKeyText.ToString();
-    FString charr;
+    PressedKeyText = key.GetDisplayName();
+    PressedKeyString = PressedKeyText.ToString();
 
     for(int j = 0; j < spawnQue; j++)
     {
         if(!InInput)
         {
             Enemy = Cast<AEnemyText>(SpawnedActors[j]);
-            UE_LOG(LogTemp, Warning, TEXT ("newCast")); 
         }
         
         if(PressedKeyString == Enemy->chooseWord.Mid(0,1))
         {
             InInput = true;
+            Enemy->TargetShoot = true;
             Enemy->newColor = FColor::Green;
-        }   
-    }
-
-    if(InInput)
-    {
-        for(int i = Enemy->wordCount; i < Enemy->chooseWord.Len(); i++)
-        {
-            charr = Enemy->chooseWord.Mid(0, 1);
-        
-            if (charr == PressedKeyString)
-            {
-                // UE_LOG(LogTemp, Warning, TEXT("%s"), *charr);
-                // UE_LOG(LogTemp, Warning, TEXT("Match Press: %s"), *PressedKeyString);
-                // UE_LOG(LogTemp, Warning, TEXT("%d Left Letters"), (EnemyInput->chooseWord.Len() - EnemyInput->wordCount));
-                Enemy->chooseWord.RemoveAt(0 ,1, true);
-                // UE_LOG(LogTemp, Warning, TEXT("%s"), *Enemy->chooseWord);
-            }
+            SpawnedMissileActor = GetWorld()->SpawnActor<AActor>(MissileActorObject, Pawn->GetActorLocation() , Pawn->GetActorRotation(), SpawnParams);
+            Enemy->chooseWord.RemoveAt(0 ,1, true);
 
             if(Enemy->chooseWord.Len() == 0)
             {
@@ -123,7 +133,8 @@ void AGameManager::FirstLetter(FKey key)
                 spawnQue--;
                 InInput = false;
                 SpawnedActors.Remove(Enemy);
+                break;
             }
-        }      
+        }   
     }
 }
