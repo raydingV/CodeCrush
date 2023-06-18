@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Animation/SkeletalMeshActor.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/Controller.h"
 #include "Components/BoxComponent.h"
@@ -22,7 +23,13 @@ public:
 
 	// UFUNCTION()
 	// void FirstLetterInput(FString key);
-    
+
+	UFUNCTION(BlueprintCallable, Category = "AnimationDestroy")
+	void animDestroy(USkeletalMeshComponent* actor, USkeletalMeshComponent* actorRegular, USkeletalMeshComponent* actorSpeed);
+
+	UFUNCTION(BlueprintCallable, Category = "AnimationSet")
+	void animSet(USkeletalMeshComponent* actorSlow, USkeletalMeshComponent* actorRegular, USkeletalMeshComponent* actorSpeed);
+	
 	UPROPERTY(EditAnywhere)
 	UTextRenderComponent* Text;
 
@@ -33,12 +40,16 @@ public:
 	FString chooseWord;
 
 	FVector Direction;
+	
 	float Distance;
 	float RandomSpeed;
+
 	int wordCount;
 	int Queue;
+	
 	bool InFunc;
 	bool TargetShoot;
+	
 	FColor newColor;
 
 	FActorSpawnParameters SpawnParams;

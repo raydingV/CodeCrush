@@ -26,7 +26,7 @@ void AGameManager::BeginPlay()
     Super::BeginPlay();
     SpawnMax = 4;
     timerValue = 800.0f;
-    CountDownTimer = 0;
+    CountDownTimer = 500;
     SpawnWord = Words;
 }
 
@@ -35,12 +35,12 @@ void AGameManager::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
 
-    CountDownTimer -= DeltaTime * 500;
+    CountDownTimer -= DeltaTime * 300;
 
     if (ActorToSpawn && CountWord < SpawnMax && CountDownTimer <= 0)
     {
         // UE_LOG(LogTemp, Warning, TEXT("The array num: %d"), SpawnWord.Num());
-        SpawnedActor = GetWorld()->SpawnActor<AActor>(ActorToSpawn, FVector3d(FMath::RandRange(50.0, 2900.0), FMath::RandRange(2000.0, 3200.0), 60.0) , GetActorRotation(), SpawnParams);
+        SpawnedActor = GetWorld()->SpawnActor<AActor>(ActorToSpawn, FVector3d(FMath::RandRange(-850.0, 820.0), FMath::RandRange(-3100.0, -1600.0), 60.0) , GetActorRotation(), SpawnParams);
 
         
         SpawnedActors.Add(SpawnedActor);
@@ -50,7 +50,6 @@ void AGameManager::Tick(float DeltaTime)
         
         enemyWord->chooseWord = SpawnWord[randomSpawnWord];
         SpawnWord.RemoveAt(randomSpawnWord);
-        
         CountDownTimer = timerValue;
         CountWord++;
         spawnQue++;
@@ -67,16 +66,19 @@ void AGameManager::Tick(float DeltaTime)
         CountWord = 0;
         SpawnMax += 3;
         timerValue -= 200;
+        
         if(SpawnMax > 7)
         {
             SpawnMax = 7;
         }
+        
         if(timerValue < 300)
         {
             timerValue = 300;
         }
+        
         UE_LOG(LogTemp, Warning, TEXT("next Round!"));
-        readyNewRound = true;
+        readyNewRound = false;
         SpawnWord = Words;
     }
 

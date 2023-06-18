@@ -15,7 +15,8 @@ AEnemyText::AEnemyText()
     PrimaryActorTick.bCanEverTick = true;
 
     Distance = 100;
-    RandomSpeed = FMath::RandRange(0.1,0.2);
+    
+    RandomSpeed = FMath::RandRange(0.1, 0.5);
 
     Text = CreateDefaultSubobject<UTextRenderComponent>(TEXT("Text"));
 
@@ -28,7 +29,6 @@ AEnemyText::AEnemyText()
     InFunc = false;
     
     newColor = FColor::White;
-
 }
 
 // Called when the game starts or when spawned
@@ -47,7 +47,7 @@ void AEnemyText::Tick(float DeltaTime)
 
     if(otherActor != nullptr)
     {
-        SetActorRotation(FRotator(50.0,-90.0,-360.000001));
+        SetActorRotation(FRotator(50.0,90.0,-360.000001));
         // SetActorRotation(FRotator(90.0, Direction.Z, Direction.X));
 
         AddActorWorldOffset(FVector3d(0.0,Direction.Y,0.0) * DeltaTime * RandomSpeed);    
@@ -57,9 +57,53 @@ void AEnemyText::Tick(float DeltaTime)
     Text->SetText(FText::FromString(chooseWord));
     Text->SetTextRenderColor(newColor);
 
-    if(_otherObject.Y >= thisLocation.Y && chooseWord.Len() != 0)
+    if(_otherObject.Y <= thisLocation.Y && chooseWord.Len() != 0)
     {
         UE_LOG(LogTemp, Warning, TEXT("Game Over!"));
         this->Destroy();
+    }
+}
+
+
+void AEnemyText::animDestroy(USkeletalMeshComponent* actorSlow, USkeletalMeshComponent* actorRegular, USkeletalMeshComponent* actorSpeed)
+{
+    if(chooseWord.Len() == 0)
+    {
+        if(actorSlow != nullptr)
+        {
+            actorSlow->DestroyComponent();            
+        }
+        
+        if(actorRegular != nullptr)
+        {
+            actorRegular->DestroyComponent();            
+        }
+        
+        if(actorSpeed != nullptr)
+        {
+            actorSpeed->DestroyComponent();            
+        }
+
+    }
+}
+
+void AEnemyText::animSet(USkeletalMeshComponent* actorSlow, USkeletalMeshComponent* actorRegular, USkeletalMeshComponent* actorSpeed)
+{
+    if(RandomSpeed <= 0.2)
+    {
+        actorSpeed->DestroyComponent();
+        actorRegular->DestroyComponent();
+    }
+
+    if(RandomSpeed <= 0.3 && RandomSpeed > 0.2)
+    {
+        actorSlow->DestroyComponent();
+        actorSpeed->DestroyComponent();
+    }
+
+    if(RandomSpeed <= 0.5 && RandomSpeed > 0.3)
+    {
+        actorSlow->DestroyComponent();
+        actorRegular->DestroyComponent();
     }
 }

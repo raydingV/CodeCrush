@@ -57,13 +57,13 @@ void AMissile::Tick(float DeltaTime)
 
 	if(GameManager->Enemy != nullptr)
 	{
-		if(_otherObjectUpdate.Y <= thisLoc.Y && distance <= 300)
+		if(_otherObjectUpdate.Y >= thisLoc.Y && distance <= 300)
 		{
 			// if(GameManager->Enemy->chooseWord.Len() == 0)
 			// {
 			// 	GetWorld()->SpawnActor<AActor>(explosionVFX, GameManager->Enemy->GetActorLocation() , GameManager->Enemy->GetActorRotation(), SpawnParams);
 			// }
-			GameManager->Enemy->SetActorLocation(FVector(GameManager->Enemy->GetActorLocation().X, GameManager->Enemy->GetActorLocation().Y + 100, GameManager->Enemy->GetActorLocation().Z));
+			GameManager->Enemy->SetActorLocation(FVector(GameManager->Enemy->GetActorLocation().X, GameManager->Enemy->GetActorLocation().Y - 100, GameManager->Enemy->GetActorLocation().Z));
 			GetWorld()->SpawnActor<AActor>(bombVfx, GetActorLocation() , GetActorRotation(), SpawnParams);
 			this->Destroy();
 		}
