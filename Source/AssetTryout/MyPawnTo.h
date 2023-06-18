@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "SpawnerEnemy.h"
+#include "GameManager.h"
 #include "GameFramework/Pawn.h"
 #include "MyPawnTo.generated.h"
 
@@ -16,7 +16,7 @@ public:
 	// Sets default values for this pawn's properties
 	AMyPawnTo();
 	
-	ASpawnerEnemy* enemySpawner;
+	AGameManager* enemySpawner;
 	FVector Direct;
 	UPROPERTY(EditAnywhere, Category = "Spawning")
 	AActor* Actor;

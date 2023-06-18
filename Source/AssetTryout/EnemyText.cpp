@@ -20,22 +20,24 @@ AEnemyText::AEnemyText()
     Text = CreateDefaultSubobject<UTextRenderComponent>(TEXT("Text"));
 
     Text->SetWorldScale3D(FVector(5.0,5.0,5.0));
-    
-    words = {"merhaba", "UmutluBebek", "KakakCocuk","DombulBebek","SismanBebek", "EmzikliBebek", "LaubaliBebek", "ProBebek"};
-    
 
+    RootComponent = Text;
+    
     otherActor = Cast<AMyPawnTo>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyPawnTo::StaticClass()));
     wordCount = 0;
     InFunc = false;
     
     newColor = FColor::White;
+
 }
 
 // Called when the game starts or when spawned
 void AEnemyText::BeginPlay()
 {
     Super::BeginPlay();
-    chooseWord = words[FMath::RandRange(0,7)];
+    TargetShoot = false;
+    _otherObject = otherActor->GetActorLocation();
+    Direction = _otherObject - GetActorLocation();
 }
 
 // Called every frame
@@ -45,17 +47,19 @@ void AEnemyText::Tick(float DeltaTime)
 
     if(otherActor != nullptr)
     {
-        FVector _otherObject = otherActor->GetActorLocation();
-        Direction = _otherObject - GetActorLocation();
-
         SetActorRotation(FRotator(50.0,-90.0,-360.000001));
         // SetActorRotation(FRotator(90.0, Direction.Z, Direction.X));
 
         AddActorWorldOffset(FVector3d(0.0,Direction.Y,0.0) * DeltaTime * RandomSpeed);    
     }
 
+    FVector thisLocation = GetActorLocation();
     Text->SetText(FText::FromString(chooseWord));
     Text->SetTextRenderColor(newColor);
 
+    if(_otherObject.Y >= thisLocation.Y && chooseWord.Len() != 0)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Game Over!"));
+        this->Destroy();
+    }
 }
-

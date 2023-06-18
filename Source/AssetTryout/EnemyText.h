@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/Controller.h"
+#include "Components/BoxComponent.h"
 #include "Materials/MaterialInterface.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/TextRenderComponent.h"
@@ -29,9 +30,6 @@ public:
 	AActor* otherActor;
 
 	UPROPERTY(EditAnywhere)
-	TArray<FString> words;
-
-	UPROPERTY(EditAnywhere)
 	FString chooseWord;
 
 	FVector Direction;
@@ -40,7 +38,16 @@ public:
 	int wordCount;
 	int Queue;
 	bool InFunc;
+	bool TargetShoot;
 	FColor newColor;
+
+	FActorSpawnParameters SpawnParams;
+	
+	AActor* bombVfx;
+	
+	FVector _otherObject;
+
+	
     
 
 protected:
