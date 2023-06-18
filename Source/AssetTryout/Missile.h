@@ -41,6 +41,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Object to Trigger")
 	TSubclassOf<AActor> bombVfx;
 
+	UPROPERTY(EditAnywhere, Category = " Object to Trigger")
+	TSubclassOf<AActor> explosionVFX;
+
 	FActorSpawnParameters SpawnParams;
 	
 	FVector _otherObject;

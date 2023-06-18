@@ -57,7 +57,7 @@ void AEnemyText::Tick(float DeltaTime)
     Text->SetText(FText::FromString(chooseWord));
     Text->SetTextRenderColor(newColor);
 
-    if(_otherObject.Y >= thisLocation.Y)
+    if(_otherObject.Y >= thisLocation.Y && chooseWord.Len() != 0)
     {
         UE_LOG(LogTemp, Warning, TEXT("Game Over!"));
         this->Destroy();

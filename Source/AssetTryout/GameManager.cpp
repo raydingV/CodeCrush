@@ -18,7 +18,7 @@ AGameManager::AGameManager()
     spawnQue = 0;
     InInput = false;
     readyNewRound = false;
-    Words = {"merhaba", "UmutluBebek", "KakakCocuk","DombulBebek","SismanBebek", "EmzikliBebek", "LaubaliBebek", "ProBebek"};
+    Words = {"submit", "five", "return", "things", "words", "extra", "wave", "yes", "little", "panic", "cyber", "man", "star", "curse"};
 }
 
 void AGameManager::BeginPlay()
@@ -51,28 +51,12 @@ void AGameManager::Tick(float DeltaTime)
         enemyWord->chooseWord = SpawnWord[randomSpawnWord];
         SpawnWord.RemoveAt(randomSpawnWord);
         
-        
-        // if(SpawnWord.Len() != 0 && enemyWord != nullptr)
-        // {
-        //     for(int i = 0; SpawnWord.Len(); i++)
-        //     {
-        //         if(SpawnWord[i] != enemyWord->chooseWord[i])
-        //         {
-        //             spawnNewWord = false;
-        //         }
-        //     }
-        // }
-        // else
-        // {
-        //     spawnNewWord = true;
-        // }
-        
         CountDownTimer = timerValue;
         CountWord++;
         spawnQue++;
     }
 
-    if(CountWord < SpawnMax)
+    if(CountWord >= SpawnMax)
     {
         readyNewRound = true;
     }
@@ -123,13 +107,13 @@ void AGameManager::FirstLetter(FKey key)
         {
             InInput = true;
             Enemy->TargetShoot = true;
-            Enemy->newColor = FColor::Green;
-            SpawnedMissileActor = GetWorld()->SpawnActor<AActor>(MissileActorObject, Pawn->GetActorLocation() , Pawn->GetActorRotation(), SpawnParams);
+            Enemy->newColor = FColor::Cyan;
+            GetWorld()->SpawnActor<AActor>(MissileActorObject, Pawn->GetActorLocation() , Pawn->GetActorRotation(), SpawnParams);
             Enemy->chooseWord.RemoveAt(0 ,1, true);
 
             if(Enemy->chooseWord.Len() == 0)
             {
-                Enemy->K2_DestroyActor();
+                // Enemy->K2_DestroyActor();
                 spawnQue--;
                 InInput = false;
                 SpawnedActors.Remove(Enemy);

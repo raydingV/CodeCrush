@@ -48,17 +48,30 @@ void AMissile::Tick(float DeltaTime)
 			
 	SetActorRotation(TargetRotation);
 
-	AddActorWorldOffset(Direction* DeltaTime * 0.8);
+	AddActorWorldOffset(Direction * DeltaTime * 1.8);
 
 	FVector thisLoc = GetActorLocation();
 	FVector _otherObjectUpdate = GameManager->Enemy->GetActorLocation();
 	
 	float distance = FMath::Abs(_otherObjectUpdate.X - thisLoc.X);
-	
-	if(_otherObjectUpdate.Y <= thisLoc.Y && distance <= 300)
+
+	if(GameManager->Enemy != nullptr)
 	{
-		GetWorld()->SpawnActor<AActor>(bombVfx, GetActorLocation() , GetActorRotation(), SpawnParams);
-		K2_DestroyActor();
+		if(_otherObjectUpdate.Y <= thisLoc.Y && distance <= 300)
+		{
+			// if(GameManager->Enemy->chooseWord.Len() == 0)
+			// {
+			// 	GetWorld()->SpawnActor<AActor>(explosionVFX, GameManager->Enemy->GetActorLocation() , GameManager->Enemy->GetActorRotation(), SpawnParams);
+			// }
+			GameManager->Enemy->SetActorLocation(FVector(GameManager->Enemy->GetActorLocation().X, GameManager->Enemy->GetActorLocation().Y + 100, GameManager->Enemy->GetActorLocation().Z));
+			GetWorld()->SpawnActor<AActor>(bombVfx, GetActorLocation() , GetActorRotation(), SpawnParams);
+			this->Destroy();
+		}
+
+		else if(thisLoc.Y >= 3000)
+		{
+			this->Destroy();
+		}
 	}
 
 }

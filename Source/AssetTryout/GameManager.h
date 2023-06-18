@@ -34,7 +34,6 @@ public:
 	AEnemyText* Enemy;
 	AEnemyText* enemyWord;
 	AActor* SpawnedActor;
-	AActor* SpawnedMissileActor;
 	
 	FActorSpawnParameters SpawnParams;
 	bool InInput;
