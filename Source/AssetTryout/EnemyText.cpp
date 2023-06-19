@@ -53,15 +53,9 @@ void AEnemyText::Tick(float DeltaTime)
         AddActorWorldOffset(FVector3d(0.0,Direction.Y,0.0) * DeltaTime * RandomSpeed);    
     }
 
-    FVector thisLocation = GetActorLocation();
+    thisLocation = GetActorLocation();
     Text->SetText(FText::FromString(chooseWord));
     Text->SetTextRenderColor(newColor);
-
-    if(_otherObject.Y <= thisLocation.Y && chooseWord.Len() != 0)
-    {
-        UE_LOG(LogTemp, Warning, TEXT("Game Over!"));
-        this->Destroy();
-    }
 }
 
 
@@ -105,5 +99,14 @@ void AEnemyText::animSet(USkeletalMeshComponent* actorSlow, USkeletalMeshCompone
     {
         actorSlow->DestroyComponent();
         actorRegular->DestroyComponent();
+    }
+}
+
+void AEnemyText::endGame()
+{
+    if(_otherObject.Y <= thisLocation.Y && chooseWord.Len() != 0)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Game Over!"));
+        this->Destroy();
     }
 }

@@ -63,7 +63,7 @@ void AMissile::Tick(float DeltaTime)
 			// {
 			// 	GetWorld()->SpawnActor<AActor>(explosionVFX, GameManager->Enemy->GetActorLocation() , GameManager->Enemy->GetActorRotation(), SpawnParams);
 			// }
-			GameManager->Enemy->SetActorLocation(FVector(GameManager->Enemy->GetActorLocation().X, GameManager->Enemy->GetActorLocation().Y - 100, GameManager->Enemy->GetActorLocation().Z));
+			GameManager->Enemy->SetActorLocation(FVector(GameManager->Enemy->GetActorLocation().X, GameManager->Enemy->GetActorLocation().Y - 50, GameManager->Enemy->GetActorLocation().Z));
 			GetWorld()->SpawnActor<AActor>(bombVfx, GetActorLocation() , GetActorRotation(), SpawnParams);
 			this->Destroy();
 		}
