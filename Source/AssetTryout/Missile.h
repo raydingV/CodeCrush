@@ -32,12 +32,6 @@ public:
 	float animRoll;
 	FRotator TargetRotation;
 
-	UFUNCTION()
-	void OnComponentBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* _otherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-	UBoxComponent* hitBox;
-
-	AActor* triggerBox;
-
 	UPROPERTY(EditAnywhere, Category = "Object to Trigger")
 	TSubclassOf<AActor> bombVfx;
 

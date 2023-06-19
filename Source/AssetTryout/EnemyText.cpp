@@ -4,10 +4,8 @@
 #include "EnemyText.h"
 
 #include "MyPawnTo.h"
-#include "Blueprint/UserWidget.h"
 #include "Components/TextRenderComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "UObject/UnrealTypePrivate.h"
 
 // Sets default values
 AEnemyText::AEnemyText()

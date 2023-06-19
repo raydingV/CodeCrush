@@ -4,9 +4,7 @@
 #include "GameManager.h"
 
 #include "EnemyText.h"
-#include "Editor/EditorEngine.h"
 #include "Kismet/GameplayStatics.h"
-#include "Kismet/ImportanceSamplingLibrary.h"
 
 // Sets default values
 AGameManager::AGameManager()

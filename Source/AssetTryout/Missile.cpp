@@ -13,16 +13,6 @@ AMissile::AMissile()
 	
 	GameManagerObject = Cast<AGameManager>(UGameplayStatics::GetActorOfClass(GetWorld(), AGameManager::StaticClass()));
 	GameManager = Cast<AGameManager>(GameManagerObject);
-
-	hitBox = CreateDefaultSubobject<UBoxComponent>(TEXT("TriggerBox"));
-	RootComponent = hitBox;
-	
-	hitBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-	hitBox->SetCollisionObjectType(ECollisionChannel::ECC_WorldStatic);
-	hitBox->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
-
-	// Bind the OnActorBeginOverlap function to the overlap event
-	hitBox->OnComponentBeginOverlap.AddDynamic(this, &AMissile::OnComponentBeginOverlap);
 	
 }
 
@@ -44,7 +34,7 @@ void AMissile::Tick(float DeltaTime)
 	
 	TargetRotation = FRotationMatrix::MakeFromX(Direction).Rotator();
 	
-	TargetRotation.Yaw -= 90.0f;
+	TargetRotation.Yaw += 180.0f;
 			
 	SetActorRotation(TargetRotation);
 
@@ -75,10 +65,5 @@ void AMissile::Tick(float DeltaTime)
 		}
 	}
 
-}
-
-void AMissile::OnComponentBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	
 }
 
