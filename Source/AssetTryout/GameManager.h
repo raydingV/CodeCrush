@@ -53,6 +53,8 @@ public:
 		USoundBase* SoundToFire;
 	UPROPERTY(EditAnywhere)
 		USoundBase* SoundToWrong;
+	UPROPERTY(EditAnywhere)
+		USoundBase* SoundNewRound;
 
 protected:
 	// Called when the game starts or when spawned

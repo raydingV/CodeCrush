@@ -79,7 +79,8 @@ void AGameManager::Tick(float DeltaTime)
             timerValue = 300;
         }
         
-        UE_LOG(LogTemp, Warning, TEXT("next Round!"));
+        UE_LOG(LogTemp, Warning, TEXT("Next Round!"));
+        UGameplayStatics::PlaySound2D(GetWorld(), SoundNewRound);
         readyNewRound = false;
         SpawnWord = Words;
     }
