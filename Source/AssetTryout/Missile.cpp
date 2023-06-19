@@ -65,6 +65,7 @@ void AMissile::Tick(float DeltaTime)
 			// }
 			GameManager->Enemy->SetActorLocation(FVector(GameManager->Enemy->GetActorLocation().X, GameManager->Enemy->GetActorLocation().Y - 50, GameManager->Enemy->GetActorLocation().Z));
 			GetWorld()->SpawnActor<AActor>(bombVfx, GetActorLocation() , GetActorRotation(), SpawnParams);
+			UGameplayStatics::PlaySound2D(GetWorld(), SoundToHit);
 			this->Destroy();
 		}
 

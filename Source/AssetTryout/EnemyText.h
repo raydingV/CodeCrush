@@ -60,9 +60,6 @@ public:
 
 	FVector thisLocation;
 
-	UFUNCTION(BlueprintCallable, Category = "GameOver")
-		void endGame();
-
 	
     
 

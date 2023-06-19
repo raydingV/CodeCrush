@@ -47,6 +47,9 @@ public:
 	FActorSpawnParameters SpawnParams;
 	
 	FVector _otherObject;
+
+	UPROPERTY(EditAnywhere)
+		USoundBase* SoundToHit;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

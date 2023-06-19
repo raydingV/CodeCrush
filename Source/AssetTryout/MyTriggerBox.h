@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameManager.h"
 #include "Engine/TriggerBox.h"
 #include "GameFramework/Actor.h"
 #include "Engine/TriggerBox.h"
@@ -31,6 +32,11 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Object to Trigger")
 	TSubclassOf<AActor> bombVfx;
+
+	UPROPERTY(EditAnywhere, Category = "GameManager")
+		AActor* GameManagerActor;
+
+	AGameManager* gameManager;
 
 	FActorSpawnParameters SpawnParams;
 	

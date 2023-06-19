@@ -19,6 +19,7 @@ AGameManager::AGameManager()
     InInput = false;
     readyNewRound = false;
     Words = {"submit", "five", "return", "things", "words", "extra", "wave", "yes", "little", "panic", "cyber", "man", "star", "curse"};
+    GameOverEnd = false;
 }
 
 void AGameManager::BeginPlay()
@@ -28,6 +29,7 @@ void AGameManager::BeginPlay()
     timerValue = 800.0f;
     CountDownTimer = 500;
     SpawnWord = Words;
+    Score = 0;
 }
 
 // Called every frame
@@ -82,15 +84,7 @@ void AGameManager::Tick(float DeltaTime)
         SpawnWord = Words;
     }
 
-    // if(SpawnedActors[spawnQue] != nullptr)
-    // {
-    //     Enemy = Cast<AEnemyText>(SpawnedActors[spawnQue]);
-    // }
-    // else
-    // {
-    //     UGameplayStatics::SetGamePaused(GetWorld(), true);
-    // }
-    
+    ScoreText = FText::Format(FText::FromString("Score: {0}"), FText::AsNumber(Score));   
 }
 
 void AGameManager::FirstLetter(FKey key)
@@ -109,18 +103,30 @@ void AGameManager::FirstLetter(FKey key)
         {
             InInput = true;
             Enemy->TargetShoot = true;
-            Enemy->newColor = FColor::Cyan;
+            Enemy->newColor = FColor::Red;
             GetWorld()->SpawnActor<AActor>(MissileActorObject, Pawn->GetActorLocation() , Pawn->GetActorRotation(), SpawnParams);
             Enemy->chooseWord.RemoveAt(0 ,1, true);
+            Score += 50;
+            UGameplayStatics::PlaySound2D(GetWorld(), SoundToFire);
 
             if(Enemy->chooseWord.Len() == 0)
             {
-                // Enemy->K2_DestroyActor();
+                Enemy->Destroy();
                 spawnQue--;
                 InInput = false;
                 SpawnedActors.Remove(Enemy);
                 break;
             }
-        }   
+        }
+        else if(PressedKeyString != Enemy->chooseWord.Mid(0, 1))
+        {
+            UGameplayStatics::PlaySound2D(GetWorld(), SoundToWrong);
+        }
     }
+}
+
+bool AGameManager::endGame(bool endGameOver)
+{
+    endGameOver = GameOverEnd;
+    return endGameOver;
 }

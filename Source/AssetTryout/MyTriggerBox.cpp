@@ -12,13 +12,16 @@ AMyTriggerBox::AMyTriggerBox()
 void AMyTriggerBox::BeginPlay()
 {
 	Super::BeginPlay();
+
+	gameManager = Cast<AGameManager>(GameManagerActor);
 }
 
 void AMyTriggerBox::Event(AActor* overlappedActor, AActor* otherActor)
 {
 	if(otherActor && otherActor != nullptr)
 	{
-		otherActor->Destroy();
+		gameManager->GameOverEnd = true;
+		gameManager->endGame(gameManager->GameOverEnd);
 	}
 }
 

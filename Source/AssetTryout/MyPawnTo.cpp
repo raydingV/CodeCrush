@@ -30,7 +30,7 @@ void AMyPawnTo::Tick(float DeltaTime)
 			Direct = enemySpawner->Enemy->GetActorLocation() - GetActorLocation();
 			Direct.Normalize(-1.0f);
 			FRotator TargetRotation = FRotationMatrix::MakeFromX(Direct).Rotator();
-			TargetRotation.Yaw -= 90.0f;
+			TargetRotation.Yaw += 90.0f;
 			
 			SetActorRotation(TargetRotation);
 		}

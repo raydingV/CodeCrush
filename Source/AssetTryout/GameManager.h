@@ -25,6 +25,11 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Spawning")
 	TSubclassOf<AActor> MissileActorObject;
 
+	UFUNCTION(BlueprintCallable, Category = "GameOver")
+	bool endGame(bool endGameOver);
+
+	bool GameOverEnd;
+
 	UPROPERTY(EditAnywhere)
 	AActor* Pawn;
 
@@ -38,12 +43,24 @@ public:
 	FActorSpawnParameters SpawnParams;
 	bool InInput;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		int Score;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		FText ScoreText;
+
+	UPROPERTY(EditAnywhere)
+		USoundBase* SoundToFire;
+	UPROPERTY(EditAnywhere)
+		USoundBase* SoundToWrong;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	float CountDownTimer;
 	float timerValue;
+
 	
 	int CountWord;
 	int spawnQue;
